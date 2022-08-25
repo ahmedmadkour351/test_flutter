@@ -65,8 +65,22 @@ class _AddNotesState extends State<AddNotes> {
                 // ignore: prefer_const_literals_to_create_immutables
                 children: [
                   const Text("Plaease Choose Image"),
-                  const Text("From Gallery"),
-                  const Text("From Camera")
+                  // ignore: prefer_const_literals_to_create_immutables
+                  InkWell(
+                    onTap: () {},
+                    child: Row(children: const [
+                      Icon(Icons.photo),
+                      Text("From Gallery")
+                    ]),
+                  ),
+                  // ignore: prefer_const_literals_to_create_immutables
+                  InkWell(
+                    onTap: () {},
+                    child: Row(children: const [
+                      Icon(Icons.camera),
+                      Text("From Camera")
+                    ]),
+                  ),
                 ]),
           );
         });
