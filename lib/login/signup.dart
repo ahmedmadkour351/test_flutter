@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
+// import 'package:awesome_dialog/awesome_dialog.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -45,15 +45,15 @@ class _SignUpState extends State<SignUp> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    AwesomeDialog(
-                      context: context,
-                      dialogType: DialogType.SUCCES,
-                      animType: AnimType.BOTTOMSLIDE,
-                      title: 'Creat Account',
-                      desc: 'Done.............',
-                      btnCancelOnPress: () {},
-                      btnOkOnPress: () {},
-                    ).show();
+                    // AwesomeDialog(
+                    //   context: context,
+                    //   dialogType: DialogType.SUCCES,
+                    //   animType: AnimType.BOTTOMSLIDE,
+                    //   title: 'Creat Account',
+                    //   desc: 'Done.............',
+                    //   btnCancelOnPress: () {},
+                    //   btnOkOnPress: () {},
+                    // ).show();
                   },
                   child: const Text("Done"))
             ],
