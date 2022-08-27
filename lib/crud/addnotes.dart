@@ -1,4 +1,8 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddNotes extends StatefulWidget {
   const AddNotes({super.key});
@@ -8,7 +12,54 @@ class AddNotes extends StatefulWidget {
 }
 
 class _AddNotesState extends State<AddNotes> {
+  // Future getData() async {
+  //   print("start function");
+  //   await Future.delayed(Duration(seconds: 3), () {
+  //     print("Ahmed Madkour");
+  //   });
+  //   print("End Function");
+  // }
+  // services location وهو يخص خدمة locaion بالموبيل اذن كان Enabled => True واذا كان  Disabled => fales
+  //2- لابد من التحقق على خدمة location شغالة ام لا بالموبيل
+  late Position cl;
+  Future getPostion() async {
+    bool services;
+    LocationPermission per;
+    services = await Geolocator.isLocationServiceEnabled();
+    if (services == false) {
+      AwesomeDialog(
+          context: context,
+          title: "services",
+          body: Text("Services Not Enabled"))
+        ..show();
+    }
+    per = await Geolocator.checkPermission();
+    if (per == LocationPermission.denied) {
+      per = await Geolocator.requestPermission();
+      if (per == LocationPermission.always) {
+        getlatAndLong();
+      }
+    }
+    print("=============================");
+    print(per);
+    print("=============================");
+  }
+
+  Future<Position> getlatAndLong() async {
+    return await Geolocator.getCurrentPosition().then((value) => value);
+  }
+  // permssin
+
   @override
+  void initState() {
+    getPostion();
+    super.initState();
+  }
+  // void initState() {
+  //   getData();
+  //   super.initState();
+  // }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +96,23 @@ class _AddNotesState extends State<AddNotes> {
                 ),
                 Center(
                     child: ElevatedButton(
-                        onPressed: () {}, child: const Text("Add Note")))
+                        onPressed: () {}, child: const Text("Add Note"))),
+                ElevatedButton(
+                    onPressed: () async {
+                      var dis = await Geolocator.distanceBetween(
+                          30.101623, 31.263207, 25.352403, 32.797938);
+                      var disk = dis / 1000;
+                      print(disk);
+                      cl = await getlatAndLong();
+                      print(cl.latitude);
+                      print(cl.longitude);
+                      // ignore: unused_local_variable
+                      // List<Placemark> placemarks =
+                      //     await placemarkFromCoordinates(
+                      //         cl.latitude, cl.longitude);
+                      // print(placemarks[0].country);
+                    },
+                    child: Text("Postion"))
               ],
             ))
           ],
@@ -86,3 +153,9 @@ class _AddNotesState extends State<AddNotes> {
         });
   }
 }
+
+//30.101623
+//31.263207
+
+//25.352403
+//32.797938
