@@ -38,6 +38,9 @@ dependencies:
   geolocator: ^9.0.1
   geocoding: ^2.0.5
   google_maps_flutter: ^2.1.12
+  jiffy: ^5.0.0
+  image_picker: ^0.8.5+3
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_launcher_icons: "^0.10.0"

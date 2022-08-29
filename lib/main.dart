@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test/crud/addnotes.dart';
+import 'package:test/crud/editnotes.dart';
 import 'package:test/home/homepage.dart';
 import 'package:test/login/login.dart';
 import 'package:test/login/signup.dart';
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         "login": (context) => const Login(),
         "signup": (context) => const SignUp(),
         "homepage": (context) => const HomePage(),
-        "addnotes": (context) => const AddNotes()
+        "addnotes": (context) => const AddNotes(),
+        "editnotes": (context) => const EditNotes()
       },
     );
   }

@@ -1,8 +1,9 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:geocoding/geocoding.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class AddNotes extends StatefulWidget {
   const AddNotes({super.key});
@@ -48,13 +49,37 @@ class _AddNotesState extends State<AddNotes> {
   Future<Position> getlatAndLong() async {
     return await Geolocator.getCurrentPosition().then((value) => value);
   }
-  // permssin
+
+  late File imagegallery;
+  final imagepickergallery = ImagePicker();
+  uplaodImagegallery() async {
+    var pickerImagegallery =
+        await imagepickergallery.pickImage(source: ImageSource.gallery);
+    if (pickerImagegallery != null) {
+      setState(() {
+        imagegallery = File(pickerImagegallery.path);
+      });
+    } else {}
+  }
+
+  late File imagecamer;
+  final imagepickercamer = ImagePicker();
+  uplaodImagecamer() async {
+    var pickerImagecamer =
+        await imagepickercamer.pickImage(source: ImageSource.camera);
+    if (pickerImagecamer != null) {
+      setState(() {
+        imagecamer = File(pickerImagecamer.path);
+      });
+    } else {}
+  }
 
   @override
   void initState() {
     getPostion();
     super.initState();
   }
+
   // void initState() {
   //   getData();
   //   super.initState();
@@ -112,7 +137,11 @@ class _AddNotesState extends State<AddNotes> {
                       //         cl.latitude, cl.longitude);
                       // print(placemarks[0].country);
                     },
-                    child: Text("Postion"))
+                    child: Text("Postion")),
+                // ignore: unnecessary_null_comparison
+                // imagecamer == null
+                //     ? Text("Not choosen Image")
+                //     : Image.file(imagecamer)
               ],
             ))
           ],
@@ -134,7 +163,9 @@ class _AddNotesState extends State<AddNotes> {
                   const Text("Plaease Choose Image"),
                   // ignore: prefer_const_literals_to_create_immutables
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      uplaodImagegallery();
+                    },
                     child: Row(children: const [
                       Icon(Icons.photo),
                       Text("From Gallery")
@@ -142,7 +173,9 @@ class _AddNotesState extends State<AddNotes> {
                   ),
                   // ignore: prefer_const_literals_to_create_immutables
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      uplaodImagecamer();
+                    },
                     child: Row(children: const [
                       Icon(Icons.camera),
                       Text("From Camera")

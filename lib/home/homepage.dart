@@ -75,7 +75,9 @@ class ListNotes extends StatelessWidget {
             title: const Text("Title"),
             subtitle: Text("${notes['name']}"),
             trailing: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed("editnotes");
+              },
               icon: const Icon(Icons.edit),
             ),
           ),
