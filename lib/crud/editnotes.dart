@@ -1,5 +1,7 @@
 // ignore: unused_import
 // import 'dart:js_util';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 // import 'package:jiffy/jiffy.dart';
 import 'package:http/http.dart' as http;
@@ -18,14 +20,28 @@ class _EditNotesState extends State<EditNotes> {
   DateTime datethree = DateTime.now().subtract(Duration(days: 10));
   List posts = [];
   Future getPost() async {
-    var url = Uri.http("jsonplaceholder.typicode.com", "/posts");
+    Uri url = Uri(
+        scheme: 'https',
+        host: 'jsonplaceholder.typicode.com',
+        path: 'posts',
+        query: 'id=14');
+
     var response = await http.get(url);
     var responsebody = jsonDecode(response.body);
-
+    print(response.statusCode);
     setState(() {
-      posts.add(responsebody);
+      posts.addAll(responsebody);
     });
-    print(posts);
+  }
+
+  Future addposts() async {
+    Uri url = Uri(
+        scheme: 'https', host: 'jsonplaceholder.typicode.com', path: 'posts');
+    var response1 = await http
+        .post(url, body: {"title": 'foo', "body": 'bar', "userId": "1"});
+    var resonsebody = JsonDecoder(response1.body);
+    print(resonsebody);
+    return resonsebody;
   }
 
   @override
@@ -38,25 +54,33 @@ class _EditNotesState extends State<EditNotes> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Note'),
-      ),
-      body: Container(
-          child: Column(
-        children: [
-          // ignore: unnecessary_null_comparison
-          posts == null || posts.isEmpty
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : ListView.builder(
-                  itemCount: posts.length,
-                  itemBuilder: (context, i) {
-                    return Text("${posts[i]['title']}");
-                  })
-        ],
-      )),
-    );
+        appBar: AppBar(
+          title: const Text('Edit Note'),
+        ),
+        body: ListView(
+          children: [
+            Container(
+              child:
+                  // ignore: unnecessary_null_comparison
+                  posts == null || posts.isEmpty
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: posts.length,
+                          itemBuilder: (context, i) {
+                            return Text("${posts[i]['title']}");
+                          }),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  addposts();
+                },
+                child: Text("ADD Post"))
+          ],
+        ));
   }
 }
 
